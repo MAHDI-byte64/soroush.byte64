@@ -1,0 +1,1100 @@
+<!-- ==========================================================================
+     یه کام دو کام | صفحه نخست فروشگاه (HTML + CSS خالص، بدون جاوااسکریپت)
+     تمام کلاس‌ها با پیشوند yekam- تا با قالب Woodmart تداخل نداشته باشد.
+     ========================================================================== -->
+<div class="yekam-site" dir="rtl">
+
+<style>
+/* ==========================================================================
+   0) متغیرها و پایه
+   ========================================================================== */
+.yekam-site{
+  --yekam-bg:#080808;
+  --yekam-bg-2:#0d0d0d;
+  --yekam-card:#151515;
+  --yekam-card-2:#1b1b1b;
+  --yekam-line:#242424;
+  --yekam-line-2:#333;
+  --yekam-pink:#ff2f85;
+  --yekam-pink-2:#ff5fa2;
+  --yekam-pink-soft:rgba(255,47,133,.14);
+  --yekam-text:#fff;
+  --yekam-muted:#9b9b9b;
+  --yekam-radius:16px;
+  --yekam-max:1400px;
+
+  /* برای استفاده در وردپرس این خط را به font-family:inherit; تغییر دهید */
+  font-family:"Vazirmatn","IRANSansX","IRANSans","Vazir",Tahoma,system-ui,sans-serif;
+
+  direction:rtl;
+  text-align:right;
+  background:var(--yekam-bg);
+  color:var(--yekam-text);
+  font-size:15px;
+  line-height:1.9;
+  overflow:hidden;
+}
+.yekam-site *,.yekam-site *::before,.yekam-site *::after{box-sizing:border-box;}
+.yekam-site img{max-width:100%;height:auto;display:block;}
+.yekam-site a{text-decoration:none;color:inherit;transition:color .25s ease;}
+.yekam-site button{font-family:inherit;cursor:pointer;border:0;background:none;padding:0;color:inherit;}
+.yekam-site svg{display:block;}
+.yekam-container{max-width:var(--yekam-max);margin:0 auto;padding:0 20px;width:100%;}
+.yekam-sec{padding:34px 0 0;}
+
+/* ==========================================================================
+   1) هدر
+   ========================================================================== */
+.yekam-header{background:#0b0b0b;border-bottom:1px solid var(--yekam-line);}
+.yekam-header__inner{
+  direction:ltr;
+  display:flex;
+  align-items:center;
+  gap:22px;
+  padding-top:14px;
+  padding-bottom:14px;
+}
+/* لوگو */
+.yekam-logo{direction:rtl;display:flex;align-items:center;gap:10px;flex:0 0 auto;}
+.yekam-logo__mark{
+  width:38px;height:38px;flex:0 0 38px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:12px;
+  background:linear-gradient(145deg,rgba(255,47,133,.22),rgba(255,47,133,.06));
+  border:1px solid rgba(255,47,133,.35);
+  color:var(--yekam-pink);
+}
+.yekam-logo__mark svg{width:21px;height:21px;}
+.yekam-logo__text{display:block;}
+.yekam-logo__title{display:block;font-size:17px;font-weight:900;color:var(--yekam-pink);line-height:1.5;}
+.yekam-logo__sub{display:block;font-size:10.5px;color:var(--yekam-muted);line-height:1.5;}
+
+/* جستجو */
+.yekam-search{
+  direction:rtl;
+  flex:1 1 auto;
+  max-width:520px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:#141414;
+  border:1px solid var(--yekam-line);
+  border-radius:100px;
+  padding:5px 18px 5px 5px;
+  transition:border-color .25s ease;
+}
+.yekam-search:focus-within{border-color:rgba(255,47,133,.55);}
+.yekam-search__input{
+  flex:1;
+  background:none;border:0;outline:none;
+  color:#fff;font-family:inherit;font-size:13px;
+  padding:6px 0;
+}
+.yekam-search__input::placeholder{color:#6f6f6f;}
+.yekam-search__btn{
+  flex:0 0 38px;width:38px;height:34px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:100px;
+  background:var(--yekam-pink);color:#fff;
+  transition:background .25s ease,box-shadow .25s ease;
+}
+.yekam-search__btn:hover{background:var(--yekam-pink-2);box-shadow:0 6px 18px rgba(255,47,133,.4);}
+.yekam-search__btn svg{width:17px;height:17px;}
+
+/* اکشن‌ها */
+.yekam-actions{direction:ltr;display:flex;align-items:center;gap:20px;flex:0 0 auto;}
+.yekam-action{direction:rtl;display:flex;align-items:center;gap:7px;font-size:12.5px;color:#d6d6d6;white-space:nowrap;}
+.yekam-action svg{width:20px;height:20px;color:#cfcfcf;transition:color .25s ease;}
+.yekam-action:hover,.yekam-action:hover svg{color:var(--yekam-pink);}
+.yekam-action__cart{position:relative;display:inline-flex;}
+.yekam-action__badge{
+  position:absolute;top:-6px;right:-7px;
+  min-width:16px;height:16px;padding:0 4px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:100px;background:var(--yekam-pink);
+  color:#fff;font-size:10px;font-weight:800;line-height:1;
+}
+
+/* منو */
+.yekam-nav{background:#0b0b0b;border-bottom:1px solid var(--yekam-line);}
+.yekam-nav__inner{
+  display:flex;align-items:center;justify-content:center;gap:26px;
+  padding-top:0;padding-bottom:11px;
+  overflow-x:auto;scrollbar-width:none;
+}
+.yekam-nav__inner::-webkit-scrollbar{display:none;}
+.yekam-nav__link{font-size:13px;font-weight:700;color:#cfcfcf;white-space:nowrap;}
+.yekam-nav__link:hover{color:var(--yekam-pink);}
+.yekam-nav__link--active{color:var(--yekam-pink);}
+
+/* ==========================================================================
+   2) بنر هیرو (فول عرض / لینک‌دار / متن داخل خود تصویر)
+   ========================================================================== */
+.yekam-hero{
+  position:relative;display:block;
+  width:100%;
+  height:clamp(330px,42vw,600px);
+  overflow:hidden;
+  background-color:#050505;
+  /* لینک تصویر واقعی در style همین تگ (--yekam-img) قرار می‌گیرد */
+  background-image:var(--yekam-img,none),
+    radial-gradient(60% 90% at 68% 45%,rgba(255,47,133,.20) 0%,rgba(8,8,8,0) 60%),
+    radial-gradient(50% 70% at 20% 90%,rgba(255,47,133,.12) 0%,rgba(8,8,8,0) 60%),
+    linear-gradient(180deg,#0e0e0e 0%,#050505 100%);
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+}
+/* --- طرح موقت (Placeholder) داخل هیرو؛ پس از افزودن تصویر واقعی حذف شود --- */
+.yekam-hero__mock{position:absolute;inset:0;overflow:hidden;}
+.yekam-hero__ring{
+  position:absolute;top:50%;right:22%;transform:translate(50%,-58%);
+  width:clamp(190px,26vw,330px);aspect-ratio:1/1;border-radius:50%;
+  border:2px solid var(--yekam-pink);
+  box-shadow:0 0 45px rgba(255,47,133,.55),inset 0 0 45px rgba(255,47,133,.25);
+  opacity:.9;
+}
+.yekam-hero__stage{
+  position:absolute;top:50%;right:24%;transform:translate(50%,-45%);
+  display:flex;align-items:flex-end;gap:clamp(8px,1.4vw,20px);
+}
+.yekam-hero__glow{
+  position:absolute;left:0;right:0;bottom:0;height:45%;
+  background:linear-gradient(0deg,rgba(0,0,0,.85),rgba(0,0,0,0));
+}
+.yekam-hero__dots{
+  position:absolute;top:50%;left:auto;right:26px;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:10px;align-items:flex-end;
+  font-size:11px;font-weight:800;color:#5d5d5d;letter-spacing:1px;
+}
+.yekam-hero__dot--on{color:var(--yekam-pink);position:relative;padding-left:26px;}
+.yekam-hero__dot--on::after{
+  content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:18px;height:2px;border-radius:2px;background:var(--yekam-pink);
+}
+
+/* ==========================================================================
+   3) دسته‌بندی‌ها
+   ========================================================================== */
+.yekam-cats{position:relative;}
+.yekam-cats__track{
+  direction:ltr;
+  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(148px,1fr);
+  gap:10px;overflow-x:auto;scroll-snap-type:x proximity;
+  padding-bottom:4px;scrollbar-width:thin;scrollbar-color:#2b2b2b transparent;
+}
+.yekam-cats__track::-webkit-scrollbar{height:5px;}
+.yekam-cats__track::-webkit-scrollbar-thumb{background:#2b2b2b;border-radius:10px;}
+.yekam-cat{
+  direction:rtl;
+  scroll-snap-align:start;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  padding:14px 8px 13px;
+  background:var(--yekam-card);
+  border:1px solid var(--yekam-line);
+  border-radius:14px;
+  text-align:center;
+  transition:transform .3s ease,border-color .3s ease,background .3s ease;
+}
+.yekam-cat:hover{transform:translateY(-4px);border-color:rgba(255,47,133,.5);background:var(--yekam-card-2);}
+.yekam-cat__thumb{height:46px;display:flex;align-items:flex-end;justify-content:center;}
+.yekam-cat__name{font-size:12.5px;font-weight:800;color:#fff;line-height:1.6;}
+.yekam-cat__sub{font-size:11px;color:var(--yekam-muted);line-height:1.6;}
+.yekam-cat:hover .yekam-cat__name{color:var(--yekam-pink);}
+.yekam-cats__arrow{
+  position:absolute;top:50%;right:-6px;transform:translateY(-50%);
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:#1d1d1d;border:1px solid var(--yekam-line-2);color:#bdbdbd;
+  box-shadow:0 6px 16px rgba(0,0,0,.6);
+}
+.yekam-cats__arrow svg{width:14px;height:14px;}
+
+/* ==========================================================================
+   4) دو بنر تبلیغاتی
+   ========================================================================== */
+.yekam-promos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
+.yekam-promo{
+  position:relative;display:flex;align-items:center;justify-content:space-between;gap:14px;
+  min-height:210px;padding:24px 26px;overflow:hidden;
+  border:1px solid var(--yekam-line);border-radius:18px;
+  background-image:var(--yekam-img,none),var(--yekam-mockbg,linear-gradient(180deg,#141414,#0b0b0b));
+  background-size:cover;background-position:center;
+}
+.yekam-promo::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(270deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.25) 55%,rgba(0,0,0,0) 100%);
+}
+.yekam-promo__content{position:relative;z-index:2;max-width:56%;}
+.yekam-promo__content>*{display:block;}
+.yekam-promo__content .yekam-btn{display:inline-flex;}
+.yekam-promo__title{display:block;margin:0 0 6px;font-size:clamp(17px,1.7vw,23px);font-weight:900;line-height:1.7;color:#fff;}
+.yekam-promo__text{display:block;margin:0 0 16px;font-size:12.5px;color:#c9c9c9;line-height:1.9;}
+.yekam-promo__stage{position:relative;z-index:1;display:flex;align-items:flex-end;gap:10px;}
+
+/* ==========================================================================
+   5) سربرگ بخش‌ها
+   ========================================================================== */
+.yekam-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px;}
+.yekam-head__title{margin:0;font-size:19px;font-weight:900;color:#fff;line-height:1.7;}
+.yekam-head__more{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--yekam-pink);}
+.yekam-head__more svg{width:14px;height:14px;}
+.yekam-head__more:hover{color:var(--yekam-pink-2);}
+
+/* ==========================================================================
+   6) ردیف محصولات + بنر کناری
+   ========================================================================== */
+.yekam-row{direction:ltr;display:grid;grid-template-columns:repeat(5,minmax(0,1fr)) 1.85fr;gap:12px;align-items:stretch;}
+.yekam-side{
+  direction:rtl;order:9;
+  position:relative;display:flex;flex-direction:column;justify-content:center;gap:6px;
+  padding:22px 24px;overflow:hidden;
+  border:1px solid var(--yekam-line);border-radius:var(--yekam-radius);
+  background-image:var(--yekam-img,none),var(--yekam-mockbg,linear-gradient(180deg,#141414,#0b0b0b));
+  background-size:cover;background-position:center;
+}
+.yekam-side::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(270deg,rgba(0,0,0,.65),rgba(0,0,0,.05));
+}
+.yekam-side__inner{position:relative;z-index:2;}
+.yekam-side__brand{display:block;font-size:22px;font-weight:900;letter-spacing:2px;color:#fff;line-height:1.6;}
+.yekam-side__title{display:block;font-size:14px;font-weight:800;color:#fff;line-height:1.9;margin-top:2px;}
+.yekam-side__text{display:block;font-size:12px;color:#c4c4c4;line-height:1.9;margin-bottom:14px;}
+.yekam-side__stage{position:absolute;z-index:1;left:16px;bottom:14px;display:flex;align-items:flex-end;gap:8px;opacity:.95;}
+
+/* کارت محصول */
+.yekam-card{
+  direction:rtl;
+  position:relative;display:flex;flex-direction:column;
+  background:var(--yekam-card);border:1px solid var(--yekam-line);
+  border-radius:var(--yekam-radius);overflow:hidden;
+  transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease;
+}
+.yekam-card:hover{transform:translateY(-5px);border-color:rgba(255,47,133,.5);box-shadow:0 14px 30px rgba(0,0,0,.6);}
+.yekam-card__media{
+  position:relative;aspect-ratio:1/1;background:#101010;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.yekam-card__media img{width:100%;height:100%;object-fit:cover;}
+.yekam-card:hover .yekam-card__media .yekam-pack,
+.yekam-card:hover .yekam-card__media .yekam-device{transform:translateY(-4px) scale(1.03);}
+.yekam-wish{
+  position:absolute;top:8px;right:8px;z-index:3;
+  width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;background:transparent;border:0;color:#c9c9c9;
+  transition:all .25s ease;
+}
+.yekam-wish svg{width:15px;height:15px;}
+.yekam-wish:hover{color:var(--yekam-pink);transform:scale(1.12);}
+.yekam-card__body{display:flex;flex-direction:column;gap:6px;padding:11px 11px 12px;flex:1;text-align:center;}
+.yekam-card__title{
+  margin:0;font-size:12.5px;font-weight:800;color:#f1f1f1;line-height:1.8;min-height:45px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.yekam-card__title a:hover{color:var(--yekam-pink);}
+.yekam-card__price{margin-top:auto;font-size:12.5px;font-weight:800;color:#fff;}
+.yekam-card__price i{font-style:normal;font-size:11px;font-weight:600;color:var(--yekam-muted);margin-right:3px;}
+.yekam-atc{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;margin-top:4px;padding:9px 8px;
+  font-size:11.5px;font-weight:800;color:#fff;
+  background:var(--yekam-pink);border-radius:9px;
+  transition:background .25s ease,box-shadow .25s ease,transform .2s ease;
+}
+.yekam-atc svg{width:14px;height:14px;}
+.yekam-atc:hover{background:var(--yekam-pink-2);box-shadow:0 8px 20px rgba(255,47,133,.38);color:#fff;}
+
+/* دکمه‌ها */
+.yekam-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-size:12.5px;font-weight:800;border-radius:100px;padding:10px 20px;
+  transition:all .25s ease;white-space:nowrap;
+}
+.yekam-btn--pink{background:var(--yekam-pink);color:#fff;}
+.yekam-btn--pink:hover{background:var(--yekam-pink-2);color:#fff;box-shadow:0 10px 24px rgba(255,47,133,.4);transform:translateY(-2px);}
+.yekam-btn--light{background:#fff;color:#111;}
+.yekam-btn--light:hover{background:#ececec;color:#111;transform:translateY(-2px);}
+.yekam-btn--lg{padding:13px 30px;font-size:13.5px;}
+
+/* ==========================================================================
+   7) نوار مزایا
+   ========================================================================== */
+.yekam-features{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  background:#0c0c0c;border-top:1px solid var(--yekam-line);border-bottom:1px solid var(--yekam-line);
+  margin-top:38px;
+}
+.yekam-feature{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  padding:22px 14px;border-left:1px solid var(--yekam-line);
+}
+.yekam-feature:last-child{border-left:0;}
+.yekam-feature__icon{
+  flex:0 0 42px;width:42px;height:42px;order:1;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:12px;background:var(--yekam-pink-soft);
+  border:1px solid rgba(255,47,133,.3);color:var(--yekam-pink);
+}
+.yekam-feature__icon svg{width:21px;height:21px;}
+.yekam-feature__text{order:2;}
+.yekam-feature__title{display:block;font-size:13px;font-weight:800;color:#fff;line-height:1.7;}
+.yekam-feature__sub{display:block;font-size:11.5px;color:var(--yekam-muted);line-height:1.7;}
+
+/* ==========================================================================
+   8) بنر پایانی CTA
+   ========================================================================== */
+.yekam-cta{
+  position:relative;overflow:hidden;
+  background-image:var(--yekam-img,none),
+    radial-gradient(45% 120% at 12% 50%,rgba(46,140,90,.22) 0%,rgba(8,8,8,0) 70%),
+    radial-gradient(45% 120% at 88% 50%,rgba(46,140,90,.16) 0%,rgba(8,8,8,0) 70%),
+    linear-gradient(180deg,#0f0f0f,#070707);
+  background-size:cover;background-position:center;
+}
+.yekam-cta__inner{
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+  padding-top:26px;padding-bottom:26px;min-height:170px;
+}
+.yekam-cta__title{margin:0;font-size:clamp(17px,2vw,24px);font-weight:900;line-height:1.8;color:#fff;}
+.yekam-cta__title span{color:var(--yekam-pink);}
+.yekam-cta__text{margin:6px 0 0;font-size:12.5px;color:var(--yekam-muted);letter-spacing:1px;}
+.yekam-cta__stage{display:flex;align-items:flex-end;gap:10px;flex:0 1 auto;}
+
+/* ==========================================================================
+   9) فوتر
+   ========================================================================== */
+.yekam-footer{background:#0a0a0a;border-top:1px solid var(--yekam-line);margin-top:0;}
+.yekam-footer__top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.4fr;gap:26px;padding-top:38px;padding-bottom:30px;}
+.yekam-footer__title{margin:0 0 14px;font-size:14px;font-weight:800;color:#fff;position:relative;padding-right:12px;}
+.yekam-footer__title::before{
+  content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);
+  width:4px;height:15px;border-radius:3px;background:var(--yekam-pink);
+}
+.yekam-footer__about{font-size:12.5px;color:var(--yekam-muted);line-height:2.1;margin:12px 0 16px;}
+.yekam-footer__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;}
+.yekam-footer__list a{font-size:12.5px;color:#bdbdbd;}
+.yekam-footer__list a:hover{color:var(--yekam-pink);}
+.yekam-footer__contact{display:flex;flex-direction:column;gap:11px;font-size:12.5px;color:#bdbdbd;}
+.yekam-footer__contact span{display:flex;align-items:center;gap:9px;}
+.yekam-footer__contact svg{width:16px;height:16px;color:var(--yekam-pink);flex:0 0 16px;}
+.yekam-social{display:flex;gap:9px;}
+.yekam-social a{
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  border-radius:10px;background:#141414;border:1px solid var(--yekam-line);color:#c9c9c9;
+  transition:all .25s ease;
+}
+.yekam-social a:hover{background:var(--yekam-pink);border-color:var(--yekam-pink);color:#fff;transform:translateY(-2px);}
+.yekam-social svg{width:16px;height:16px;}
+.yekam-footer__note{
+  font-size:11px;color:#7a7a7a;line-height:1.9;
+  border-top:1px dashed var(--yekam-line);padding-top:12px;
+}
+.yekam-footer__bottom{
+  border-top:1px solid var(--yekam-line);
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding-top:14px;padding-bottom:16px;
+  font-size:12px;color:#8a8a8a;
+}
+.yekam-footer__bottom b{color:var(--yekam-pink);font-weight:800;}
+
+/* ==========================================================================
+   10) طرح‌های موقت تصاویر (CSS/SVG) — با تصویر واقعی جایگزین شوند
+   ========================================================================== */
+.yekam-pack{
+  position:relative;display:block;
+  width:var(--w,58%);aspect-ratio:3/4.1;border-radius:6px;
+  background:linear-gradient(160deg,var(--p1,#2ec4b6) 0%,var(--p2,#0c6f66) 100%);
+  box-shadow:0 14px 28px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.25);
+  transition:transform .35s ease;
+}
+.yekam-pack::before{
+  content:"";position:absolute;top:16%;left:50%;transform:translateX(-50%);
+  width:42%;aspect-ratio:1/1;border-radius:50%;
+  border:2px solid rgba(255,255,255,.55);
+  background:radial-gradient(circle,rgba(255,255,255,.28) 0%,rgba(255,255,255,0) 62%);
+}
+.yekam-pack::after{
+  content:"";position:absolute;left:8%;right:8%;bottom:7%;height:14%;
+  border-radius:2px;background:rgba(255,255,255,.85);
+}
+.yekam-pack__label{
+  position:absolute;left:0;right:0;top:47%;
+  text-align:center;font-size:clamp(7px,1vw,11px);font-weight:900;
+  letter-spacing:1px;color:#fff;line-height:1.4;
+}
+.yekam-pack--sm{width:34px;}
+.yekam-device{
+  position:relative;display:block;
+  width:var(--w,22%);aspect-ratio:1/3.4;border-radius:100px;
+  background:linear-gradient(120deg,var(--p1,#e6e6e6) 0%,var(--p2,#8f8f8f) 55%,var(--p1,#e6e6e6) 100%);
+  box-shadow:0 14px 28px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.5);
+  transition:transform .35s ease;
+}
+.yekam-device::after{
+  content:"";position:absolute;left:26%;right:26%;top:8%;height:34%;
+  border-radius:100px;background:rgba(255,255,255,.22);
+}
+.yekam-device--sm{width:14px;}
+.yekam-stage-sm .yekam-pack{width:34px;}
+.yekam-stage-sm .yekam-device{width:15px;}
+.yekam-stage-md .yekam-pack{width:clamp(38px,5vw,62px);}
+.yekam-stage-md .yekam-device{width:clamp(16px,2.2vw,28px);}
+.yekam-stage-lg .yekam-pack{width:clamp(50px,7vw,96px);}
+.yekam-stage-lg .yekam-device{width:clamp(22px,3vw,42px);}
+
+/* ==========================================================================
+   11) واکنش‌گرا
+   ========================================================================== */
+@media (max-width:1200px){
+  .yekam-row{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .yekam-side{order:0;}
+  .yekam-side{grid-column:1/-1;min-height:190px;}
+  .yekam-side__stage{left:24px;bottom:20px;}
+}
+@media (max-width:1024px){
+  .yekam-header__inner{flex-wrap:wrap;gap:14px;}
+  .yekam-search{order:3;max-width:none;flex:1 0 100%;margin:0;}
+  .yekam-actions{margin-left:auto;gap:16px;}
+  .yekam-footer__top{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;}
+  .yekam-features{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .yekam-feature:nth-child(2){border-left:0;}
+  .yekam-feature:nth-child(1),.yekam-feature:nth-child(2){border-bottom:1px solid var(--yekam-line);}
+}
+@media (max-width:820px){
+  .yekam-promos{grid-template-columns:1fr;}
+  .yekam-promo{min-height:180px;}
+  .yekam-cta__inner{flex-direction:column;text-align:center;padding-top:30px;padding-bottom:30px;}
+  .yekam-cta__text{letter-spacing:0;}
+}
+@media (max-width:680px){
+  .yekam-site{font-size:14px;}
+  .yekam-container{padding:0 14px;}
+  .yekam-sec{padding:24px 0 0;}
+  .yekam-header__inner{padding-top:11px;padding-bottom:11px;gap:10px;}
+  .yekam-logo__title{font-size:15px;}
+  .yekam-action span{display:none;}
+  .yekam-actions{gap:14px;}
+  .yekam-nav__inner{justify-content:flex-start;gap:18px;}
+  .yekam-hero{height:clamp(230px,58vw,340px);}
+  .yekam-hero__dots{right:12px;font-size:10px;}
+  .yekam-cats__track{grid-auto-columns:minmax(122px,1fr);}
+  .yekam-cats__arrow{display:none;}
+  .yekam-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .yekam-promo__content{max-width:66%;}
+  .yekam-card__title{min-height:42px;}
+  .yekam-features{grid-template-columns:1fr;}
+  .yekam-feature{justify-content:flex-start;border-left:0;border-bottom:1px solid var(--yekam-line);}
+  .yekam-feature:last-child{border-bottom:0;}
+  .yekam-footer__top{grid-template-columns:1fr;}
+  .yekam-footer__bottom{flex-direction:column;text-align:center;gap:8px;}
+}
+</style>
+
+
+<!-- ==========================================================================
+     هدر
+     ========================================================================== -->
+<header class="yekam-header">
+  <div class="yekam-container yekam-header__inner">
+
+    <!-- لوگو | برای تغییر نام سایت فقط دو خط زیر را ویرایش کنید -->
+    <a class="yekam-logo" href="YOUR-HOME-LINK">
+      <span class="yekam-logo__text">
+        <span class="yekam-logo__title">هایلند بیوتی</span>
+        <span class="yekam-logo__sub">فروشگاه لوازم آرایشی</span>
+      </span>
+      <span class="yekam-logo__mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V9a3 3 0 0 1 6 0v12"/><path d="M14 21V7"/><path d="M18 21V4"/><circle cx="9" cy="4" r="1.6"/></svg>
+      </span>
+    </a>
+
+    <!-- جستجو (به جستجوی وردپرس متصل است) -->
+    <form class="yekam-search" action="/" method="get" role="search">
+      <input class="yekam-search__input" type="search" name="s" placeholder="جستجوی محصولات، برندها و ..." aria-label="جستجو">
+      <button class="yekam-search__btn" type="submit" aria-label="جستجو">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+      </button>
+    </form>
+
+    <!-- اکشن‌های کاربر -->
+    <div class="yekam-actions">
+      <a class="yekam-action" href="YOUR-ACCOUNT-LINK">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-3.6 3.4-6 7.5-6s7.5 2.4 7.5 6"/></svg>
+        <span>ورود / ثبت‌نام</span>
+      </a>
+      <a class="yekam-action" href="YOUR-WISHLIST-LINK">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 4.6-8.8 10-8.8 10s-8.8-5.4-8.8-10a5 5 0 0 1 8.8-3.2A5 5 0 0 1 20.8 8.6z"/></svg>
+        <span>علاقه‌مندی‌ها</span>
+      </a>
+      <a class="yekam-action" href="YOUR-CART-LINK">
+        <span class="yekam-action__cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2 11.2A2 2 0 0 0 9.2 17h8.3a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg>
+          <span class="yekam-action__badge">۱</span>
+        </span>
+        <span>سبد خرید</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- منوی اصلی -->
+  <nav class="yekam-nav">
+    <div class="yekam-container yekam-nav__inner">
+      <a class="yekam-nav__link yekam-nav__link--active" href="YOUR-CATEGORIES-LINK">دسته‌بندی محصولات</a>
+      <a class="yekam-nav__link" href="YOUR-HOME-LINK">صفحه اصلی</a>
+      <a class="yekam-nav__link" href="YOUR-ABOUT-LINK">درباره ما</a>
+      <a class="yekam-nav__link" href="YOUR-SHOP-LINK">فروشگاه</a>
+      <a class="yekam-nav__link" href="YOUR-BLOG-LINK">بلاگ</a>
+      <a class="yekam-nav__link" href="YOUR-CONTACT-LINK">تماس با ما</a>
+    </div>
+  </nav>
+</header>
+
+
+<!-- ==========================================================================
+     ۱) بنر هیرو | فول عرض و لینک‌دار
+     تصویر واقعی: لینک را در style همین تگ داخل url('...') بگذارید
+     و سپس بلوک yekam-hero__mock را حذف کنید.
+     ========================================================================== -->
+<a class="yekam-hero" href="YOUR-HERO-BANNER-LINK" style="--yekam-img:url('YOUR-HERO-BANNER-URL')" aria-label="مشاهده محصولات">
+
+  <span class="yekam-hero__mock" aria-hidden="true">
+    <span class="yekam-hero__ring"></span>
+    <span class="yekam-hero__stage yekam-stage-lg">
+      <span class="yekam-device" style="--p1:#efefef;--p2:#7d7d7d"></span>
+      <span class="yekam-device" style="--p1:#3a3a3a;--p2:#101010"></span>
+      <span class="yekam-pack" style="--p1:#a9784a;--p2:#5b3a1f"><span class="yekam-pack__label">TEREA</span></span>
+    </span>
+    <span class="yekam-hero__glow"></span>
+  </span>
+
+  <span class="yekam-hero__dots" aria-hidden="true">
+    <span class="yekam-hero__dot--on">۰۱</span>
+    <span>۰۲</span>
+    <span>۰۳</span>
+  </span>
+</a>
+
+
+<!-- ==========================================================================
+     ۲) دسته‌بندی‌ها
+     تصویر واقعی هر کارت: span.yekam-pack یا span.yekam-device داخل
+     yekam-cat__thumb را با <img src="YOUR-CATEGORY-IMAGE-URL" alt=""> جایگزین کنید.
+     ========================================================================== -->
+<section class="yekam-sec">
+  <div class="yekam-container">
+    <div class="yekam-cats">
+      <div class="yekam-cats__track">
+
+        <a class="yekam-cat" href="YOUR-CATEGORY-TEREA-LINK">
+          <span class="yekam-cat__thumb"><span class="yekam-pack yekam-pack--sm" style="--p1:#2ec4b6;--p2:#0c6f66"></span></span>
+          <span class="yekam-cat__name">TEREA</span>
+          <span class="yekam-cat__sub">ترا</span>
+        </a>
+
+        <a class="yekam-cat" href="YOUR-CATEGORY-HEETS-LINK">
+          <span class="yekam-cat__thumb"><span class="yekam-pack yekam-pack--sm" style="--p1:#d9a441;--p2:#8a5a17"></span></span>
+          <span class="yekam-cat__name">HEETS</span>
+          <span class="yekam-cat__sub">هیتس</span>
+        </a>
+
+        <a class="yekam-cat" href="YOUR-CATEGORY-LEME-LINK">
+          <span class="yekam-cat__thumb"><span class="yekam-pack yekam-pack--sm" style="--p1:#c9c9c9;--p2:#6f6f6f"></span></span>
+          <span class="yekam-cat__name">LEME</span>
+          <span class="yekam-cat__sub">لمه</span>
+        </a>
+
+        <a class="yekam-cat" href="YOUR-CATEGORY-NUSO-LINK">
+          <span class="yekam-cat__thumb"><span class="yekam-pack yekam-pack--sm" style="--p1:#8b5cf6;--p2:#4c2a9e"></span></span>
+          <span class="yekam-cat__name">NUSO</span>
+          <span class="yekam-cat__sub">نوسو</span>
+        </a>
+
+        <a class="yekam-cat" href="YOUR-CATEGORY-BUDDZ-LINK">
+          <span class="yekam-cat__thumb"><span class="yekam-pack yekam-pack--sm" style="--p1:#4aa3df;--p2:#1d5e8f"></span></span>
+          <span class="yekam-cat__name">BUDDZ</span>
+          <span class="yekam-cat__sub">بادز</span>
+        </a>
+
+        <a class="yekam-cat" href="YOUR-CATEGORY-UGARE-LINK">
+          <span class="yekam-cat__thumb"><span class="yekam-pack yekam-pack--sm" style="--p1:#e0d7c4;--p2:#8f8471"></span></span>
+          <span class="yekam-cat__name">UGARE</span>
+          <span class="yekam-cat__sub">یوگار</span>
+        </a>
+
+        <a class="yekam-cat" href="YOUR-CATEGORY-IQOS-LINK">
+          <span class="yekam-cat__thumb"><span class="yekam-device yekam-device--sm" style="--p1:#efefef;--p2:#8a8a8a"></span></span>
+          <span class="yekam-cat__name">دستگاه‌های</span>
+          <span class="yekam-cat__sub">IQOS</span>
+        </a>
+
+        <a class="yekam-cat" href="YOUR-CATEGORY-ACCESSORIES-LINK">
+          <span class="yekam-cat__thumb"><span class="yekam-device yekam-device--sm" style="--p1:#5a5a5a;--p2:#1e1e1e"></span></span>
+          <span class="yekam-cat__name">لوازم جانبی</span>
+          <span class="yekam-cat__sub">Accessories</span>
+        </a>
+
+      </div>
+      <span class="yekam-cats__arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5 16 12l-6.5 7"/></svg>
+      </span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     ۳) دو بنر تبلیغاتی کنار هم
+     تصویر واقعی: لینک را در style بنر داخل --yekam-img بگذارید و
+     span.yekam-promo__stage را حذف کنید.
+     ========================================================================== -->
+<section class="yekam-sec">
+  <div class="yekam-container">
+    <div class="yekam-promos">
+
+      <!-- بنر دستگاه‌های IQOS -->
+      <a class="yekam-promo" href="YOUR-PROMO-IQOS-LINK"
+         style="--yekam-img:url('YOUR-PROMO-IQOS-IMAGE-URL');--yekam-mockbg:radial-gradient(70% 100% at 20% 50%,rgba(120,140,170,.28) 0%,rgba(10,10,10,0) 70%),linear-gradient(180deg,#181818,#0a0a0a)">
+        <span class="yekam-promo__content">
+          <span class="yekam-promo__title">دستگاه‌های IQOS</span>
+          <span class="yekam-promo__text">انتخابی برای سبک زندگی مدرن</span>
+          <span class="yekam-btn yekam-btn--light">مشاهده محصولات</span>
+        </span>
+        <span class="yekam-promo__stage yekam-stage-md" aria-hidden="true">
+          <span class="yekam-device" style="--p1:#f0e2c9;--p2:#a98b5c"></span>
+          <span class="yekam-device" style="--p1:#e9e9e9;--p2:#8d8d8d"></span>
+          <span class="yekam-device" style="--p1:#c9d3e4;--p2:#5f6c85"></span>
+          <span class="yekam-device" style="--p1:#3b3b3b;--p2:#111"></span>
+        </span>
+      </a>
+
+      <!-- بنر طعم‌های TEREA -->
+      <a class="yekam-promo" href="YOUR-PROMO-TEREA-LINK"
+         style="--yekam-img:url('YOUR-PROMO-TEREA-IMAGE-URL');--yekam-mockbg:radial-gradient(70% 100% at 22% 50%,rgba(46,196,182,.30) 0%,rgba(10,10,10,0) 70%),linear-gradient(180deg,#10201f,#080d0d)">
+        <span class="yekam-promo__content">
+          <span class="yekam-promo__title">دنیایی از طعم‌ها<br>با TEREA</span>
+          <span class="yekam-btn yekam-btn--pink">مشاهده همه طعم‌ها</span>
+        </span>
+        <span class="yekam-promo__stage yekam-stage-md" aria-hidden="true">
+          <span class="yekam-pack" style="--p1:#2ec4b6;--p2:#0c6f66"><span class="yekam-pack__label">TEREA</span></span>
+          <span class="yekam-pack" style="--p1:#8b5cf6;--p2:#4c2a9e"><span class="yekam-pack__label">TEREA</span></span>
+          <span class="yekam-pack" style="--p1:#34d9c6;--p2:#0f7a70"><span class="yekam-pack__label">TEREA</span></span>
+        </span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     ۴) محصولات پرفروش  (۵ کارت در دسکتاپ | ۲ کارت در موبایل)
+     تصویر واقعی هر محصول: span.yekam-pack / span.yekam-device داخل
+     yekam-card__media را با <img src="YOUR-PRODUCT-IMAGE-URL" alt=""> جایگزین کنید.
+     ========================================================================== -->
+<section class="yekam-sec">
+  <div class="yekam-container">
+    <div class="yekam-head">
+      <h2 class="yekam-head__title">محصولات پرفروش</h2>
+      <a class="yekam-head__more" href="YOUR-BESTSELLER-LINK">
+        مشاهده همه
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>
+      </a>
+    </div>
+
+    <div class="yekam-row">
+
+      <!-- بنر کناری TEREA -->
+      <a class="yekam-side" href="YOUR-TEREA-BANNER-LINK"
+         style="--yekam-img:url('YOUR-SIDE-BANNER-TEREA-URL');--yekam-mockbg:radial-gradient(80% 70% at 30% 85%,rgba(46,196,182,.28) 0%,rgba(10,10,10,0) 70%),linear-gradient(180deg,#12211f,#080c0c)">
+        <span class="yekam-side__inner">
+          <span class="yekam-side__brand">TEREA</span>
+          <span class="yekam-side__title">طعم‌های خاص</span>
+          <span class="yekam-side__text">برای لحظات خاص</span>
+          <span class="yekam-btn yekam-btn--pink">مشاهده محصولات</span>
+        </span>
+        <span class="yekam-side__stage yekam-stage-md" aria-hidden="true">
+          <span class="yekam-pack" style="--p1:#2ec4b6;--p2:#0c6f66"><span class="yekam-pack__label">TEREA</span></span>
+          <span class="yekam-pack" style="--p1:#6d8ce0;--p2:#2b3f80"><span class="yekam-pack__label">TEREA</span></span>
+        </span>
+      </a>
+
+      <!-- محصول ۱ -->
+      <article class="yekam-card">
+        <div class="yekam-card__media">
+          <button class="yekam-wish" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 4.6-8.8 10-8.8 10s-8.8-5.4-8.8-10a5 5 0 0 1 8.8-3.2A5 5 0 0 1 20.8 8.6z"/></svg>
+          </button>
+          <span class="yekam-pack" style="--p1:#2ec4b6;--p2:#0c6f66"><span class="yekam-pack__label">TEREA</span></span>
+        </div>
+        <div class="yekam-card__body">
+          <h3 class="yekam-card__title"><a href="YOUR-PRODUCT-LINK">TEREA Turquoise European</a></h3>
+          <div class="yekam-card__price">۷,۰۰۰,۰۰۰ <i>تومان</i></div>
+          <a class="yekam-atc" href="YOUR-ADD-TO-CART-LINK">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2 11.2A2 2 0 0 0 9.2 17h8.3a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg>
+            افزودن به سبد خرید
+          </a>
+        </div>
+      </article>
+
+      <!-- محصول ۲ -->
+      <article class="yekam-card">
+        <div class="yekam-card__media">
+          <button class="yekam-wish" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 4.6-8.8 10-8.8 10s-8.8-5.4-8.8-10a5 5 0 0 1 8.8-3.2A5 5 0 0 1 20.8 8.6z"/></svg>
+          </button>
+          <span class="yekam-pack" style="--p1:#b5793f;--p2:#5f3a17"><span class="yekam-pack__label">TEREA</span></span>
+        </div>
+        <div class="yekam-card__body">
+          <h3 class="yekam-card__title"><a href="YOUR-PRODUCT-LINK">TEREA Bronze European</a></h3>
+          <div class="yekam-card__price">۷,۰۰۰,۰۰۰ <i>تومان</i></div>
+          <a class="yekam-atc" href="YOUR-ADD-TO-CART-LINK">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2 11.2A2 2 0 0 0 9.2 17h8.3a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg>
+            افزودن به سبد خرید
+          </a>
+        </div>
+      </article>
+
+      <!-- محصول ۳ -->
+      <article class="yekam-card">
+        <div class="yekam-card__media">
+          <button class="yekam-wish" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 4.6-8.8 10-8.8 10s-8.8-5.4-8.8-10a5 5 0 0 1 8.8-3.2A5 5 0 0 1 20.8 8.6z"/></svg>
+          </button>
+          <span class="yekam-pack" style="--p1:#8b5cf6;--p2:#4a2794"><span class="yekam-pack__label">TEREA</span></span>
+        </div>
+        <div class="yekam-card__body">
+          <h3 class="yekam-card__title"><a href="YOUR-PRODUCT-LINK">TEREA Purple Wave Arab</a></h3>
+          <div class="yekam-card__price">۷,۰۰۰,۰۰۰ <i>تومان</i></div>
+          <a class="yekam-atc" href="YOUR-ADD-TO-CART-LINK">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2 11.2A2 2 0 0 0 9.2 17h8.3a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg>
+            افزودن به سبد خرید
+          </a>
+        </div>
+      </article>
+
+      <!-- محصول ۴ -->
+      <article class="yekam-card">
+        <div class="yekam-card__media">
+          <button class="yekam-wish" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 4.6-8.8 10-8.8 10s-8.8-5.4-8.8-10a5 5 0 0 1 8.8-3.2A5 5 0 0 1 20.8 8.6z"/></svg>
+          </button>
+          <span class="yekam-pack" style="--p1:#e0a94a;--p2:#8a5a17"><span class="yekam-pack__label">HEETS</span></span>
+        </div>
+        <div class="yekam-card__body">
+          <h3 class="yekam-card__title"><a href="YOUR-PRODUCT-LINK">HEETS Amber</a></h3>
+          <div class="yekam-card__price">۶,۵۰۰,۰۰۰ <i>تومان</i></div>
+          <a class="yekam-atc" href="YOUR-ADD-TO-CART-LINK">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2 11.2A2 2 0 0 0 9.2 17h8.3a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg>
+            افزودن به سبد خرید
+          </a>
+        </div>
+      </article>
+
+      <!-- محصول ۵ -->
+      <article class="yekam-card">
+        <div class="yekam-card__media">
+          <button class="yekam-wish" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 4.6-8.8 10-8.8 10s-8.8-5.4-8.8-10a5 5 0 0 1 8.8-3.2A5 5 0 0 1 20.8 8.6z"/></svg>
+          </button>
+          <span class="yekam-pack" style="--p1:#a78bfa;--p2:#5b3fb0"><span class="yekam-pack__label">LEME</span></span>
+        </div>
+        <div class="yekam-card__body">
+          <h3 class="yekam-card__title"><a href="YOUR-PRODUCT-LINK">LEME Purple</a></h3>
+          <div class="yekam-card__price">۶,۵۰۰,۰۰۰ <i>تومان</i></div>
+          <a class="yekam-atc" href="YOUR-ADD-TO-CART-LINK">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2 11.2A2 2 0 0 0 9.2 17h8.3a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg>
+            افزودن به سبد خرید
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     ۵) جدیدترین محصولات
+     ========================================================================== -->
+<section class="yekam-sec">
+  <div class="yekam-container">
+    <div class="yekam-head">
+      <h2 class="yekam-head__title">جدیدترین محصولات</h2>
+      <a class="yekam-head__more" href="YOUR-NEW-PRODUCTS-LINK">
+        مشاهده همه
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>
+      </a>
+    </div>
+
+    <div class="yekam-row">
+
+      <!-- بنر کناری IQOS ILUMA i -->
+      <a class="yekam-side" href="YOUR-ILUMA-BANNER-LINK"
+         style="--yekam-img:url('YOUR-SIDE-BANNER-IQOS-URL');--yekam-mockbg:radial-gradient(80% 70% at 30% 85%,rgba(200,160,110,.30) 0%,rgba(10,10,10,0) 70%),linear-gradient(180deg,#241a12,#0b0908)">
+        <span class="yekam-side__inner">
+          <span class="yekam-side__brand">IQOS ILUMA i</span>
+          <span class="yekam-side__title">نسل جدید</span>
+          <span class="yekam-side__text">تکنولوژی بدون دود</span>
+          <span class="yekam-btn yekam-btn--pink">مشاهده و خرید</span>
+        </span>
+        <span class="yekam-side__stage yekam-stage-md" aria-hidden="true">
+          <span class="yekam-device" style="--p1:#f2e3c6;--p2:#a8874f"></span>
+          <span class="yekam-device" style="--p1:#efefef;--p2:#8c8c8c"></span>
+        </span>
+      </a>
+
+      <!-- محصول ۱ -->
+      <article class="yekam-card">
+        <div class="yekam-card__media">
+          <button class="yekam-wish" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 4.6-8.8 10-8.8 10s-8.8-5.4-8.8-10a5 5 0 0 1 8.8-3.2A5 5 0 0 1 20.8 8.6z"/></svg>
+          </button>
+          <span class="yekam-pack" style="--p1:#3fd0c9;--p2:#0e6f75"><span class="yekam-pack__label">NUSO</span></span>
+        </div>
+        <div class="yekam-card__body">
+          <h3 class="yekam-card__title"><a href="YOUR-PRODUCT-LINK">NUSO Menthol</a></h3>
+          <div class="yekam-card__price">۶,۹۰۰,۰۰۰ <i>تومان</i></div>
+          <a class="yekam-atc" href="YOUR-ADD-TO-CART-LINK">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2 11.2A2 2 0 0 0 9.2 17h8.3a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg>
+            افزودن به سبد خرید
+          </a>
+        </div>
+      </article>
+
+      <!-- محصول ۲ -->
+      <article class="yekam-card">
+        <div class="yekam-card__media">
+          <button class="yekam-wish" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 4.6-8.8 10-8.8 10s-8.8-5.4-8.8-10a5 5 0 0 1 8.8-3.2A5 5 0 0 1 20.8 8.6z"/></svg>
+          </button>
+          <span class="yekam-pack" style="--p1:#e8c98f;--p2:#8a6a2f"><span class="yekam-pack__label">BUDDZ</span></span>
+        </div>
+        <div class="yekam-card__body">
+          <h3 class="yekam-card__title"><a href="YOUR-PRODUCT-LINK">BUDDZ Classic</a></h3>
+          <div class="yekam-card__price">۶,۷۰۰,۰۰۰ <i>تومان</i></div>
+          <a class="yekam-atc" href="YOUR-ADD-TO-CART-LINK">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2 11.2A2 2 0 0 0 9.2 17h8.3a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg>
+            افزودن به سبد خرید
+          </a>
+        </div>
+      </article>
+
+      <!-- محصول ۳ -->
+      <article class="yekam-card">
+        <div class="yekam-card__media">
+          <button class="yekam-wish" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 4.6-8.8 10-8.8 10s-8.8-5.4-8.8-10a5 5 0 0 1 8.8-3.2A5 5 0 0 1 20.8 8.6z"/></svg>
+          </button>
+          <span class="yekam-pack" style="--p1:#d8cfbe;--p2:#7d7261"><span class="yekam-pack__label">UGARE</span></span>
+        </div>
+        <div class="yekam-card__body">
+          <h3 class="yekam-card__title"><a href="YOUR-PRODUCT-LINK">UGARE Rich</a></h3>
+          <div class="yekam-card__price">۶,۵۰۰,۰۰۰ <i>تومان</i></div>
+          <a class="yekam-atc" href="YOUR-ADD-TO-CART-LINK">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2 11.2A2 2 0 0 0 9.2 17h8.3a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg>
+            افزودن به سبد خرید
+          </a>
+        </div>
+      </article>
+
+      <!-- محصول ۴ -->
+      <article class="yekam-card">
+        <div class="yekam-card__media">
+          <button class="yekam-wish" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 4.6-8.8 10-8.8 10s-8.8-5.4-8.8-10a5 5 0 0 1 8.8-3.2A5 5 0 0 1 20.8 8.6z"/></svg>
+          </button>
+          <span class="yekam-device" style="--w:26%;--p1:#f4f4f4;--p2:#9b9b9b"></span>
+        </div>
+        <div class="yekam-card__body">
+          <h3 class="yekam-card__title"><a href="YOUR-PRODUCT-LINK">IQOS ILUMA i Prime</a></h3>
+          <div class="yekam-card__price">۱۶,۵۰۰,۰۰۰ <i>تومان</i></div>
+          <a class="yekam-atc" href="YOUR-ADD-TO-CART-LINK">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2 11.2A2 2 0 0 0 9.2 17h8.3a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg>
+            افزودن به سبد خرید
+          </a>
+        </div>
+      </article>
+
+      <!-- محصول ۵ -->
+      <article class="yekam-card">
+        <div class="yekam-card__media">
+          <button class="yekam-wish" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 4.6-8.8 10-8.8 10s-8.8-5.4-8.8-10a5 5 0 0 1 8.8-3.2A5 5 0 0 1 20.8 8.6z"/></svg>
+          </button>
+          <span class="yekam-device" style="--w:26%;--p1:#e9e9e9;--p2:#7f7f7f"></span>
+        </div>
+        <div class="yekam-card__body">
+          <h3 class="yekam-card__title"><a href="YOUR-PRODUCT-LINK">IQOS 3 DUO</a></h3>
+          <div class="yekam-card__price">۱۲,۹۵۰,۰۰۰ <i>تومان</i></div>
+          <a class="yekam-atc" href="YOUR-ADD-TO-CART-LINK">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2 11.2A2 2 0 0 0 9.2 17h8.3a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg>
+            افزودن به سبد خرید
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     ۶) نوار مزایای فروشگاه
+     ========================================================================== -->
+<section class="yekam-features">
+  <div class="yekam-feature">
+    <span class="yekam-feature__icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="2.5" y="13" width="4" height="6" rx="1.6"/><rect x="17.5" y="13" width="4" height="6" rx="1.6"/><path d="M19.5 19v.5a2.5 2.5 0 0 1-2.5 2.5h-2"/></svg>
+    </span>
+    <span class="yekam-feature__text">
+      <span class="yekam-feature__title">پشتیبانی تخصصی</span>
+      <span class="yekam-feature__sub">همیشه در کنار شما</span>
+    </span>
+  </div>
+
+  <div class="yekam-feature">
+    <span class="yekam-feature__icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16V6a1 1 0 0 0-1-1H2.8a1 1 0 0 0-1 1v9.2a1 1 0 0 0 1 1H4"/><path d="M14 8h3.8L21 11.4V16a1 1 0 0 1-1 1h-1"/><circle cx="6.6" cy="17.6" r="2"/><circle cx="17" cy="17.6" r="2"/></svg>
+    </span>
+    <span class="yekam-feature__text">
+      <span class="yekam-feature__title">ارسال سریع</span>
+      <span class="yekam-feature__sub">به سراسر کشور</span>
+    </span>
+  </div>
+
+  <div class="yekam-feature">
+    <span class="yekam-feature__icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.4c0 4.5-3.1 8.1-7.5 9.6-4.4-1.5-7.5-5.1-7.5-9.6V6L12 3z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>
+    </span>
+    <span class="yekam-feature__text">
+      <span class="yekam-feature__title">ضمانت اصالت کالا</span>
+      <span class="yekam-feature__sub">تمامی محصولات اورجینال</span>
+    </span>
+  </div>
+
+  <div class="yekam-feature">
+    <span class="yekam-feature__icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 12.9 12.9 20.6a2 2 0 0 1-2.8 0l-6.7-6.7a2 2 0 0 1-.6-1.4V4.6a2 2 0 0 1 2-2h7.9a2 2 0 0 1 1.4.6l6.5 6.5a2 2 0 0 1 0 2.8z"/><circle cx="7.6" cy="7.6" r="1.4"/></svg>
+    </span>
+    <span class="yekam-feature__text">
+      <span class="yekam-feature__title">تضمین بهترین قیمت</span>
+      <span class="yekam-feature__sub">خرید مطمئن و اقتصادی</span>
+    </span>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     ۷) بنر پایانی CTA
+     ========================================================================== -->
+<section class="yekam-cta" style="--yekam-img:url('YOUR-CTA-BANNER-URL')">
+  <div class="yekam-container yekam-cta__inner">
+    <div>
+      <h2 class="yekam-cta__title">نه فقط یک انتخاب<br>یک <span>سبک زندگی</span></h2>
+      <p class="yekam-cta__text">کیفیت . اصالت . تنوع</p>
+    </div>
+
+    <div class="yekam-cta__stage yekam-stage-md" aria-hidden="true">
+      <span class="yekam-pack" style="--p1:#2ec4b6;--p2:#0c6f66"><span class="yekam-pack__label">TEREA</span></span>
+      <span class="yekam-pack" style="--p1:#d8d8d8;--p2:#7c7c7c"><span class="yekam-pack__label">HEETS</span></span>
+      <span class="yekam-device" style="--p1:#f2e3c6;--p2:#a8874f"></span>
+      <span class="yekam-device" style="--p1:#efefef;--p2:#8c8c8c"></span>
+      <span class="yekam-pack" style="--p1:#8b5cf6;--p2:#4a2794"><span class="yekam-pack__label">TEREA</span></span>
+    </div>
+
+    <a class="yekam-btn yekam-btn--pink yekam-btn--lg" href="YOUR-SHOP-LINK">همین حالا خرید کنید</a>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     ۸) فوتر
+     ========================================================================== -->
+<footer class="yekam-footer">
+  <div class="yekam-container yekam-footer__top">
+
+    <div>
+      <a class="yekam-logo" href="YOUR-HOME-LINK">
+        <span class="yekam-logo__text">
+          <span class="yekam-logo__title">هایلند بیوتی</span>
+          <span class="yekam-logo__sub">فروشگاه لوازم آرایشی</span>
+        </span>
+        <span class="yekam-logo__mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V9a3 3 0 0 1 6 0v12"/><path d="M14 21V7"/><path d="M18 21V4"/><circle cx="9" cy="4" r="1.6"/></svg>
+        </span>
+      </a>
+      <p class="yekam-footer__about">
+        عرضه‌کننده تخصصی دستگاه‌های حرارتی IQOS و محصولات TEREA، HEETS، LEME، NUSO، UGARE و BUDDZ
+        با تضمین اصالت کالا، قیمت مناسب و ارسال سریع به سراسر ایران.
+      </p>
+      <div class="yekam-social">
+        <a href="YOUR-INSTAGRAM-LINK" aria-label="اینستاگرام">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+        </a>
+        <a href="YOUR-TELEGRAM-LINK" aria-label="تلگرام">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4 3 11l5.4 1.8L20 6.4l-9 7.4.4 5 2.6-3.4 4.2 3z"/></svg>
+        </a>
+        <a href="YOUR-WHATSAPP-LINK" aria-label="واتساپ">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5 5 16.4A8.2 8.2 0 1 1 8.1 19.4z"/><path d="M8.8 9.2c.5 2.4 2.5 4.4 5 5l1-1.6 2 .9-.4 1.7a5.6 5.6 0 0 1-5-1.6 8 8 0 0 1-2-3.3l1.5-.7z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="yekam-footer__title">دسترسی سریع</h3>
+      <ul class="yekam-footer__list">
+        <li><a href="YOUR-HOME-LINK">صفحه اصلی</a></li>
+        <li><a href="YOUR-SHOP-LINK">فروشگاه</a></li>
+        <li><a href="YOUR-ABOUT-LINK">درباره ما</a></li>
+        <li><a href="YOUR-BLOG-LINK">بلاگ</a></li>
+        <li><a href="YOUR-CONTACT-LINK">تماس با ما</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="yekam-footer__title">دسته‌بندی‌ها</h3>
+      <ul class="yekam-footer__list">
+        <li><a href="YOUR-CATEGORY-TEREA-LINK">محصولات TEREA</a></li>
+        <li><a href="YOUR-CATEGORY-HEETS-LINK">محصولات HEETS</a></li>
+        <li><a href="YOUR-CATEGORY-IQOS-LINK">دستگاه‌های IQOS</a></li>
+        <li><a href="YOUR-CATEGORY-POD-LINK">پاد و ویپ</a></li>
+        <li><a href="YOUR-CATEGORY-ACCESSORIES-LINK">لوازم جانبی</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="yekam-footer__title">ارتباط با ما</h3>
+      <div class="yekam-footer__contact">
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16.5v2.6a1.9 1.9 0 0 1-2.1 1.9A18.6 18.6 0 0 1 3 5.1 1.9 1.9 0 0 1 4.9 3h2.6a1.9 1.9 0 0 1 1.9 1.6l.5 2.5a1.9 1.9 0 0 1-.6 1.8l-1 .9a14.6 14.6 0 0 0 5.9 5.9l.9-1a1.9 1.9 0 0 1 1.8-.6l2.5.5a1.9 1.9 0 0 1 1.6 1.9z"/></svg>
+          ۰۲۱ - ۱۲۳۴۵۶۷۸
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.4"/><path d="m3.6 6.6 8.4 6 8.4-6"/></svg>
+          YOUR-EMAIL@DOMAIN.COM
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          آدرس فروشگاه را اینجا وارد کنید
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.2 2"/></svg>
+          پاسخگویی: همه روزه ۱۰ تا ۲۲
+        </span>
+      </div>
+      <p class="yekam-footer__note">
+        این محصولات حاوی نیکوتین و اعتیادآور هستند؛ فروش تنها به افراد بالای ۱۸ سال انجام می‌شود.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="yekam-container yekam-footer__bottom">
+    <span>تمامی حقوق مادی و معنوی این سایت متعلق به <b>هایلند بیوتی</b> است.</span>
+    <span>© ۱۴۰۴ | طراحی و توسعه اختصاصی</span>
+  </div>
+</footer>
+
+</div>
+<!-- پایان یه کام دو کام -->
