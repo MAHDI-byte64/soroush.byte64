@@ -11,7 +11,7 @@
   const yr = (y) => fa(y).replace(/[٬,]/g, "");
   const catLabel = (id) => (C.find((c) => c.id === id) || {}).label || "";
   const STATUS = { built: "اجرا شده", progress: "در حال اجرا", concept: "طرح" };
-  const page = document.body.dataset.page;
+  const page = document.body.dataset.page || ($("[data-page]") || { dataset: {} }).dataset.page;
 
   /* ---------- سربرگ و پانویس ---------- */
   function header() {
@@ -117,7 +117,7 @@
   /* ---------- کارت اثر ---------- */
   function workCard(p) {
     return `<article class="work reveal" data-cat="${p.category}">
-      <a href="project.html?p=${encodeURIComponent(p.slug)}">
+      <a href="project.html#${encodeURIComponent(p.slug)}">
         <div class="frame"><div class="frame-inner"><img src="${coverSrc(p)}" alt="${esc(p.title)}" loading="lazy"></div></div>
         <div class="label">
           <span class="no">${faNo(p.number)}</span>
@@ -154,7 +154,8 @@
 
   /* ---------- صفحه پروژه ---------- */
   function project() {
-    const slug = new URLSearchParams(location.search).get("p");
+    const slug = decodeURIComponent(location.hash.slice(1)) || new URLSearchParams(location.search).get("p");
+    addEventListener("hashchange", () => location.reload());
     const idx = Math.max(0, P.findIndex((p) => p.slug === slug));
     const p = P[idx];
     const next = P[(idx + 1) % P.length];
@@ -210,7 +211,7 @@
         <div id="plates"></div>
       </section>
 
-      <a class="next wrap" href="project.html?p=${encodeURIComponent(next.slug)}">
+      <a class="next wrap" href="project.html#${encodeURIComponent(next.slug)}">
         <span class="eyebrow">اثر بعدی — ${faNo(next.number)}</span><h2>${esc(next.title)}</h2>
       </a>`;
 
@@ -254,7 +255,7 @@
       <div class="portrait"><img src="${artPlate("render", pal[i], "member" + i)}" alt="${n}"></div>
       <h3>${n}</h3><p>${r}</p></div>`).join("");
     $("#awards").innerHTML = P.flatMap((p) => (p.awards || []).map((a) => [p, a]))
-      .map(([p, a]) => `<tr><td>${yr(p.year)}</td><td>${esc(a)}</td><td><a href="project.html?p=${p.slug}">${esc(p.title)}</a></td></tr>`).join("");
+      .map(([p, a]) => `<tr><td>${yr(p.year)}</td><td>${esc(a)}</td><td><a href="project.html#${p.slug}">${esc(p.title)}</a></td></tr>`).join("");
   }
 
   /* ---------- تماس ---------- */
@@ -282,7 +283,7 @@
         `نوع پروژه: ${d.getAll("type").join("، ") || "-"}`, `بودجه: ${d.get("budget") || "-"}`, "", d.get("message")
       ].join("\n");
       location.href = `mailto:${S.email}?subject=${encodeURIComponent("درخواست همکاری — " + d.get("name"))}&body=${encodeURIComponent(body)}`;
-      note.textContent = "سپاس از شما؛ برنامه ایمیل برای ارسال پیام باز شد.";
+      note.textContent = `پیام آماده شد. اگر برنامه ایمیل باز نشد، لطفاً به ${S.email} بنویسید.`;
       form.reset();
     });
   }

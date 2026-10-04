@@ -17,6 +17,7 @@
   --sans: "Vazirmatn", Tahoma, system-ui, sans-serif;
   --latin: "Cormorant Garamond", Georgia, serif;
   --ease: cubic-bezier(.2, .7, .1, 1);
+  color-scheme: light;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
