@@ -62,6 +62,7 @@ def clean(t, channel_title=""):
         # drop signature / link lines that would show where the news came from
         if SOURCE_HINTS.search(l) or (channel_title and channel_title in l):
             continue
+        l = l.translate(str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹"))  # Persian digits
         out.append(re.sub(r"[^\S\n]+", " ", l).strip())
     return out
 
