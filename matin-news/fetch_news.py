@@ -82,7 +82,8 @@ def main():
         rest = " ".join(lines[1:])
         rest = rest.strip()
         excerpt = (rest[:EXCERPT].rsplit(" ", 1)[0] + "…") if len(rest) > EXCERPT else rest
-        items.append({"title": title, "excerpt": excerpt, "date": post["date"]})
+        items.append({"title": title, "excerpt": excerpt, "date": post["date"],
+                      "body": lines[1:]})   # full text, one paragraph per line
         if len(items) >= LIMIT:
             break
     if not items:
