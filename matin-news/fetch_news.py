@@ -62,7 +62,7 @@ def clean(t, channel_title=""):
         # drop signature / link lines that would show where the news came from
         if SOURCE_HINTS.search(l) or (channel_title and channel_title in l):
             continue
-        out.append(re.sub(r" {2,}", " ", l))
+        out.append(re.sub(r"[^\S\n]+", " ", l).strip())
     return out
 
 def main():
@@ -79,6 +79,7 @@ def main():
             continue                         # photo/video without caption
         title = lines[0][:110]
         rest = " ".join(lines[1:])
+        rest = rest.strip()
         excerpt = (rest[:EXCERPT].rsplit(" ", 1)[0] + "…") if len(rest) > EXCERPT else rest
         items.append({"title": title, "excerpt": excerpt, "date": post["date"]})
         if len(items) >= LIMIT:
