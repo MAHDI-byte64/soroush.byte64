@@ -42,9 +42,18 @@ class Parser(HTMLParser):
 
 SOURCE_HINTS = re.compile(r"@\w+|t\.me/|telegram\.me/|https?://|www\.|🆔|کانال|عضو شوید|join", re.I)
 
+# ads / promos: phone numbers or "call us" lines -> skip the whole post
+AD_HINTS = re.compile(r"(?:0|\+98|۰)9[\d۰-۹]{9}|[\d۰-۹]{3,4}[- ]?[\d۰-۹]{7,8}|تماس|تبلیغ|به ما بسپارید|سفارش|تخفیف|رپورتاژ")
+# emojis and decorative symbols, for a calm look
+EMOJI = re.compile("[\U0001F000-\U0001FAFF\u2190-\u21FF\u2300-\u27BF\u2B00-\u2BFF\uFE0F\u200d\u20E3]+")
+
+def is_ad(text):
+    return bool(AD_HINTS.search(text))
+
 def clean(t, channel_title=""):
     t = unescape(t)
-    t = re.sub(r"[ \t\u200f\u200e]+", " ", t)
+    t = EMOJI.sub(" ", t)
+    t = re.sub(r"[ \t\u200f\u200e\ufeff]+", " ", t)
     out = []
     for l in t.split("\n"):
         l = re.sub(r"#\S+", "", l).strip(" -–|:")   # hashtags
@@ -53,7 +62,7 @@ def clean(t, channel_title=""):
         # drop signature / link lines that would show where the news came from
         if SOURCE_HINTS.search(l) or (channel_title and channel_title in l):
             continue
-        out.append(l)
+        out.append(re.sub(r" {2,}", " ", l))
     return out
 
 def main():
@@ -63,6 +72,8 @@ def main():
     p = Parser(); p.feed(html)
     items = []
     for post in reversed(p.posts):          # newest first
+        if is_ad(unescape(post["text"])):
+            continue
         lines = clean(post["text"], p.channel_title)
         if not lines:
             continue                         # photo/video without caption
